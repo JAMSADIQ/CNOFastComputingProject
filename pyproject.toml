@@ -1,0 +1,23 @@
+[project]
+name = "cube-evolution-cnn"
+version = "0.1.0"
+description = "3D CNN for predicting time evolution of temperature and pressure fields in a cube"
+authors = [
+    { name = "Your Name", email = "your.email@example.com" }
+]
+license = "MIT"
+readme = "README.md"
+requires-python = ">=3.8"
+
+dependencies = [
+    "torch>=2.0",
+    "numpy>=1.23",
+    "scipy>=1.10",
+    "matplotlib>=3.7",
+    "vtk>=9.2",
+    "pyvista>=0.42",
+]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/cube-evolution-cnn"
+Documentation = "https://github.com/yourusername/cube-evolution-cnn/wiki"
