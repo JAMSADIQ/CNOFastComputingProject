@@ -40,7 +40,7 @@ To train an artificial neural network that can predict the final steady-state fi
 
 ## 📚 Dataset
 
-- **Total Simulations:** N (some are good some may have physics issues) 
+- **Total Simulations:** N (some (11 or 12)are good some may have physics issues) 
 - **Data Format:** VTK files containing full 3D fields at multiple timesteps  
 - **Input:** Configuration of obstacles and ACs at early `t > 0`  
 - **Output:** Final-time step fields of **T, p, vx, vy, vz**
@@ -58,19 +58,20 @@ This project aims to develop a fast surrogate model that replaces costly CFD-sty
 
 ## 🧠 Learning Approach
 
-This project leverages 3D Convolutional Neural Networks (3D-CNNs) to learn the physical evolution of the room. It processes voxelized data from VTK files and trains a model to forecast the final room state from the initial conditions and configuration.
+This project leverages 3D Convolutional Neural Networks (3D-CNNs) to learn the physical evolution of the room. It processes voxelized data from VTK files and trains a model to forecast the final room state from the initial conditions and configuration.convLSTM and UNET maybe best for this problem.
 
 ---
 
 ## 🏗️ Project Structure (In progress)
 
 ```
-├── data/                 # Raw and processed VTK files
-├── models/               # CNN architecture and training scripts
-├── utils/                # Preprocessing, VTK readers, etc.
-├── outputs/              # Trained models and logs
-├── notebooks/            # Jupyter notebooks for exploration and visualization
-└── main.py               # Main training/evaluation script
+├── simulations/          # Raw and processed VTK files
+├── src/                  # CNN based models scripts for testing
+├── analysis/             # visualize data and get simulation info
+├── plots/                # plots from src repo codes 
+├── examples/             # ID diffusion problem to test methods
+└── main.py               # once we solev problem we add a script here
+ 
 ```
 
 ---
@@ -96,7 +97,7 @@ This project leverages 3D Convolutional Neural Networks (3D-CNNs) to learn the p
    ```
 
 ---
-Different Strategies that can be used (using chatGPT)
+Different Strategies that can be used to solve the problem
 | Method                 | Handles Time | Handles Space | Good with Small Data | Can Add Physics | Handles Obstacle Mask | Complexity |
 | ---------------------- | ------------ | ------------- | -------------------- | --------------- | --------------------- | ---------- |
 | ConvLSTM               | ✅            | ✅ (local)     | ✅                    | ❌               | 🟡 (hard-coded)       | Medium     |
