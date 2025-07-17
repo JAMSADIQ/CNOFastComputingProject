@@ -45,11 +45,11 @@ def read_vtk_file(filename):
         'vtk_object': data
     }
 
-def plot_stat_2d(stat_array, title):
+def plot_stat_2d(stat_array, title, variable='Temperature'):
     plt.figure()
     plt.imshow(stat_array, cmap='viridis')
     plt.title(title)
-    plt.colorbar(label='Value')
+    plt.colorbar(label=variable)
     plt.xlabel('Axis 1')
     plt.ylabel('Axis 2')
     plt.tight_layout()
@@ -75,13 +75,13 @@ def process_and_plot(data, zslice_val):
     mean_z, var_z = data_3d.mean(axis=2), data_3d.var(axis=2)
 
     # Plotting
-    plot_stat_2d(mean_x, "Mean over X-axis (Y-Z view)")
-    plot_stat_2d(mean_y, "Mean over Y-axis (X-Z view)")
-    plot_stat_2d(mean_z, "Mean over Z-axis (X-Y view)")
+    plot_stat_2d(mean_x, "Temp: mean over X-axis (Y-Z view)")
+    plot_stat_2d(mean_y, "Temp: mean over Y-axis (X-Z view)")
+    plot_stat_2d(mean_z, "Temp:mean over Z-axis (X-Y view)")
 
-    plot_stat_2d(var_x, "Variance over X-axis (Y-Z view)")
-    plot_stat_2d(var_y, "Variance over Y-axis (X-Z view)")
-    plot_stat_2d(var_z, "Variance over Z-axis (X-Y view)")
+    plot_stat_2d(var_x, "Temp: Variance over X-axis (Y-Z view)")
+    plot_stat_2d(var_y, "Temp: Variance over Y-axis (X-Z view)")
+    plot_stat_2d(var_z, "Temp: Variance over Z-axis (X-Y view)")
 
     # Mid-slice or user-specified slice
     index = physical_to_index(zslice_val)
@@ -109,11 +109,15 @@ def main():
     temperature_values = data['point_data']['T']
     velocity_values = data['point_data']['v']
     Vx, Vy, Vz = velocity_values[:, 0], velocity_values[:, 1], velocity_values[:, 2]
-
+    print(f"min/max T:  {min(temperature_values)} / {max(temperature_values)}")
     print(f"min/max Vx: {min(Vx)} / {max(Vx)}")
     print(f"min/max Vy: {min(Vy)} / {max(Vy)}")
     print(f"min/max Vz: {min(Vz)} / {max(Vz)}")
-    print(f"min/max T:  {min(temperature_values)} / {max(temperature_values)}")
+    if 'p' in data['point_data']:
+        p_values = data['point_data']['p']
+        print(f"min/max p: {p_values.min()} / {p_values.max()}")
+    else:
+        print("There are no 'p' values in point data.")
     print(f"First 5 T values: {temperature_values[:5]}")
 
     if args.plot:
