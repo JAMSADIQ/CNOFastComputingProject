@@ -8,7 +8,7 @@ This project focuses on predicting the final physical state of a simulated room 
 
 ## 🧱 Simulation Setup
 
-- **Room Geometry:** A cube of size 10 units per side, discretized with a **32×32×32** grid.
+- **Room Geometry:** A cube of size 10 units per side, discretized with a **20×20×20** grid.
 
 - **Initial Conditions:**
   - **Temperature (T):** Uniformly 25°C throughout the cube.
@@ -40,7 +40,7 @@ To train an artificial neural network that can predict the final steady-state fi
 
 ## 📚 Dataset
 
-- **Total Simulations:** 50  
+- **Total Simulations:** N (some are good some may have physics issues) 
 - **Data Format:** VTK files containing full 3D fields at multiple timesteps  
 - **Input:** Configuration of obstacles and ACs at early `t > 0`  
 - **Output:** Final-time step fields of **T, p, vx, vy, vz**
@@ -96,5 +96,14 @@ This project leverages 3D Convolutional Neural Networks (3D-CNNs) to learn the p
    ```
 
 ---
+Different Strategies that can be used (using chatGPT)
+| Method                 | Handles Time | Handles Space | Good with Small Data | Can Add Physics | Handles Obstacle Mask | Complexity |
+| ---------------------- | ------------ | ------------- | -------------------- | --------------- | --------------------- | ---------- |
+| ConvLSTM               | ✅            | ✅ (local)     | ✅                    | ❌               | 🟡 (hard-coded)       | Medium     |
+| UNet + Time Regression | 🟡 (static)  | ✅ (local)     | ✅                    | ❌               | ✅                     | Low-Med    |
+| Diffusion Model        | ✅            | ✅ (global)    | 🟡                   | ❌               | ✅                     | High       |
+| PINNs                  | ✅            | ✅             | ✅                    | ✅               | 🟡 (hard-coded)       | High       |
+| GNNs                   | ✅            | ✅ (custom)    | ✅                    | 🟡              | ✅                     | High       |
+| Transformers           | ✅            | ✅             | ❌                    | ❌               | ✅                     | Very High  |
 
  
