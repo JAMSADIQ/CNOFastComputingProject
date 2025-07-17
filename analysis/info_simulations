@@ -1,22 +1,24 @@
 Some simulations are not correct or have corrupted data
  In simulations2 :  1 (no wall after timestep 1) 
                     5 (no change in velocities and T is also 24.9 to 25.02) so this seems not working
+                    27 seems to me changing but Rami find an issue                   
+
 In simulation3 :    2 Overlap in AC and Obstacle (1 Obstacle  and 1 AC)
                     18 Overlap in ac0, obs0    (3 Obstacles and 1 AC)              
-                     
+		    34 Overlap in ac0, obs1    (3 Obstacles and 1 AC)                    
 
-Working simulations
+
+Working simulations for me
 In simulations2:  8   (1 Obstacle  and 1 AC) 
-                  27  (1 Obstacle  and 1 AC)
+                  27  (1 Obstacle  and 1 AC)  (Rami say it has some issue)
 		  31  (2 Obstacles and 1 AC)
 		  33  (1 Obstacles and 1 AC)
              	  40  (2 Obstacles and 1 AC)
 		  49  (3 Obstacles and 1 AC)
 
-In simulation3:   22  (3 Obstacles and 1 AC)
-		  32  (1 Obstacle  and 1 AC)               
-                  34  (3 Obstacles and 1 AC) (are one  obstacle and AC conflict with each other)
 
+In simulation3:   21  (3 Obstacles and 1 AC)  
+		  32  (1 Obstacle  and 1 AC)               
 		  38  (2 Obstacles and 1 AC)
                   39  (1 Obstacle  and 1 AC)  
                   41  (1 Obstacle  and 1 AC)  
