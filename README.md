@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project focuses on predicting the final physical state of a simulated room subjected to airflow and cooling dynamics using an artificial neural network (ANN). The simulations are designed to model how an air conditioning (AC) system and obstacles affect temperature, pressure, and velocity fields in a closed cubic space.
+This project focuses on forecasting the evolution of 3D physical simulation fields (a simulated room subjected to airflow and cooling dynamics) using an artificial neural network (ANN). The simulations are designed to model how an air conditioning (AC) system and obstacles affect temperature, pressure, and velocity fields in a closed cubic space.
 
 ---
 
