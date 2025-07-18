@@ -86,13 +86,13 @@ This project leverages 3D Convolutional Neural Networks (3D-CNNs) to learn the p
 
 2. **Train the model**
 
-   ```bash
+   ```bash (In progress)
    python main.py --train
    ```
 
 3. **Evaluate the model**
 
-   ```bash
+   ```bash (In progress)
    python main.py --eval
    ```
 
@@ -103,8 +103,5 @@ Different Strategies that can be used to solve the problem
 | ConvLSTM               | ✅            | ✅ (local)     | ✅                    | ❌               | 🟡 (hard-coded)       | Medium     |
 | UNet + Time Regression | 🟡 (static)  | ✅ (local)     | ✅                    | ❌               | ✅                     | Low-Med    |
 | Diffusion Model        | ✅            | ✅ (global)    | 🟡                   | ❌               | ✅                     | High       |
-| PINNs                  | ✅            | ✅             | ✅                    | ✅               | 🟡 (hard-coded)       | High       |
-| GNNs                   | ✅            | ✅ (custom)    | ✅                    | 🟡              | ✅                     | High       |
-| Transformers           | ✅            | ✅             | ❌                    | ❌               | ✅                     | Very High  |
 
  
