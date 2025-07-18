@@ -13,7 +13,7 @@ from matplotlib import animation
 # ============ Data Loading & Preprocessing ============
 def read_vtk_sequence(folder):
     files = sorted(glob(os.path.join(folder, "solution_*.vtk")))
-    tensor_seq = []
+    tensor_seq = [] #here we combine data for all time from a simulation
     for f in files:
         grid = pv.read(f)
         T = grid['T'].reshape(20, 20, 20)
@@ -119,6 +119,26 @@ def plot_loss(train_losses, val_losses):
     plt.show()
 
 def plot_slice(pred, true, channel=0, z=10):
+    fig, axs = plt.subplots(1, 2, figsize=(12, 5))
+
+    field_names = ['Temperature (T)', 'Velocity X (vx)', 'Velocity Y (vy)', 'Velocity Z (vz)', 'Pressure (p)']
+    vmin = min(true[channel, :, :, z].min(), pred[channel, :, :, z].min())
+    vmax = max(true[channel, :, :, z].max(), pred[channel, :, :, z].max())
+
+    im0 = axs[0].imshow(true[channel, :, :, z], cmap='inferno', vmin=vmin, vmax=vmax)
+    axs[0].set_title(f"True {field_names[channel]}")
+    plt.colorbar(im0, ax=axs[0], shrink=0.8)
+
+    im1 = axs[1].imshow(pred[channel, :, :, z], cmap='inferno', vmin=vmin, vmax=vmax)
+    axs[1].set_title(f"Predicted {field_names[channel]}")
+    plt.colorbar(im1, ax=axs[1], shrink=0.8)
+
+    plt.suptitle(f"{field_names[channel]} | z-slice = {z}")
+    plt.tight_layout()
+    plt.show()
+
+
+def iplot_slice(pred, true, channel=0, z=10):
     plt.figure(figsize=(10, 4))
     plt.subplot(1, 2, 1)
     plt.imshow(true[channel, :, :, z], cmap='inferno')
@@ -147,6 +167,28 @@ def animate_timesteps(pred_seq, true_seq, channel=0, z=10, save_path=None):
         ani.save(save_path, writer='ffmpeg')
     plt.show()
 
+def plot_temporal_error(pred_seq, true_seq, fields=(0, 1, 3)):
+    # fields: T (0), vx (1), vz (3)
+    time_steps = pred_seq.shape[0]
+    errors = {ch: [] for ch in fields}
+    for t in range(time_steps):
+        for ch in fields:
+            err = np.mean(np.abs(pred_seq[t, ch] - true_seq[t, ch]))
+            errors[ch].append(err)
+
+    plt.figure(figsize=(10, 5))
+    for ch in fields:
+        label = ['T', 'vx', 'vy', 'vz', 'p'][ch]
+        plt.plot(errors[ch], label=f"{label} error")
+    plt.xlabel("Prediction Timestep")
+    plt.ylabel("Mean Absolute Error")
+    plt.title("Temporal Evolution of Prediction Error")
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
+    plt.show()
+
+
 # ============ Main Trainer ============
 def train_model():
     root = "/home/jsadiq/Downloads/FastComputing/simulations2/"
@@ -166,13 +208,13 @@ def train_model():
     train_losses = []
     val_losses = []
 
-    for epoch in range(10):
+    for epoch in range(20):
         total_loss = 0
         for sim in sim_folders:
             data, _, _ = read_vtk_sequence(os.path.join(root, sim))
             data = torch.tensor(data).unsqueeze(0).to(device)
-            input_seq = data[:, :10]
-            target_seq = data[:, 10:15]
+            input_seq = data[:, :20]
+            target_seq = data[:, 15:20]
 
             if use_fno:
                 pred_seq = []
@@ -202,6 +244,7 @@ def train_model():
         true = target_seq[0].cpu().numpy()
         plot_slice(pred[-1], true[-1], channel=0)
         animate_timesteps(pred, true, channel=0)
+        plot_temporal_error(pred, true)
 
 if __name__ == "__main__":
     for use_fno in [False, True]:
