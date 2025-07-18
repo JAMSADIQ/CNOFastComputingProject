@@ -129,7 +129,10 @@ def plot_slice(pred, true, channel=0, z=10):
     plt.suptitle(f"Channel {channel}, Slice z={z}")
     plt.show()
 
-def animate_timesteps(pred_seq, true_seq, channel=0, z=10):
+
+
+
+def animate_timesteps(pred_seq, true_seq, channel=0, z=10, save_path=None):
     fig, axs = plt.subplots(1, 2, figsize=(10, 5))
     ims = []
     for t in range(pred_seq.shape[0]):
@@ -140,6 +143,8 @@ def animate_timesteps(pred_seq, true_seq, channel=0, z=10):
     axs[1].set_title("Prediction")
     ani = animation.ArtistAnimation(fig, ims, interval=500, blit=True)
     plt.suptitle(f"Channel {channel}, Slice z={z}")
+    if save_path:
+        ani.save(save_path, writer='ffmpeg')
     plt.show()
 
 # ============ Main Trainer ============
